@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: flask-dashboard
+  namespace: argocd
+spec:
+  project: flask-dashboard
+
+  source:
+    repoURL: https://github.com/dvorkinguy/flask-dashboard.git
+    targetRevision: HEAD
+    path: dev
+  destination: 
+    server: https://kubernetes.default.svc
+    namespace: flask-dashboard
+
+  syncPolicy:
+    syncOptions:
+    - CreateNamespace=true
+
+    automated:
+      selfHeal: true
+      prune: true
